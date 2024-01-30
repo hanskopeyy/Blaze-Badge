@@ -7,7 +7,7 @@ public class MenuButtonController : MonoBehaviour
 {
     public void playGame()
     {
-        SceneManager.LoadScene("Game Screen");
+        SceneManager.LoadScene("Character Select");
     }
 
     public void showInstruction()
