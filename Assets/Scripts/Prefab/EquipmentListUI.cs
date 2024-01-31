@@ -6,15 +6,16 @@ using UnityEngine.EventSystems;
 using System;
 using TMPro;
 
-public class EquipmentListUI : MonoBehaviour
+public class EquipmentListUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     private TextMeshProUGUI eqName, atk, def, res;
     private Equipment eqData;
+    private CharacterController charaControl;
     // Start is called before the first frame update
     void Start()
     {
-        
+        charaControl = this.transform.parent.gameObject.GetComponent<CharacterController>();
     }
 
     public void setEquip(Equipment details)
@@ -28,6 +29,6 @@ public class EquipmentListUI : MonoBehaviour
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        // bool isAdded = clickable.select(charaDetails);
+        charaControl.equipItem(eqData);
     }
 }

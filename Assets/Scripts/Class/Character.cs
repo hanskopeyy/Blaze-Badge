@@ -33,6 +33,14 @@ public class Character
         currEquip = new List<Equipment>();
     }
 
+    public Equipment getCurrentEquip(){
+        if(currEquip.Count > 0){
+            return currEquip[0];
+        } else {
+            return null;
+        }
+    }
+
     public void equip(Equipment e){
         if(currEquip.Count == 0 && !e.isEquipped){
             currEquip.Add(e);
@@ -41,6 +49,7 @@ public class Character
             charaRES += e.bonusRES;
             e.isEquipped = true;
             e.equippedTo = this;
+            Debug.Log(charaName + " equipped with " + e.equipName);
         } else {
             return;
         }
