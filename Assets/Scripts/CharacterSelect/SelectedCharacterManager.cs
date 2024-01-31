@@ -10,12 +10,6 @@ public class SelectedCharacterManager : MonoBehaviour
     private GameObject prefab;
 
     private List<GameObject> characters = new List<GameObject>();    
-
-    void Start()
-    {
-        
-    }
-
     public void updateList(List<Character> selectedCharacters)
     {
         Debug.Log("Updating");
@@ -24,16 +18,10 @@ public class SelectedCharacterManager : MonoBehaviour
                 Destroy(go);
             }
         }
+        characters.Clear();
         foreach(Character chara in selectedCharacters){
             GameObject newChar = Instantiate(prefab,scrollViewContent);
             characters.Add(newChar);
-            CharaListUI charaUI = newChar.GetComponent<CharaListUI>();
-            charaUI.setCharacter(chara);
         }
-    }
-
-    void Update()
-    {
-        
     }
 }
