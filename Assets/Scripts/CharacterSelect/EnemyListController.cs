@@ -41,6 +41,7 @@ public class EnemyListController : MonoBehaviour
             tempList.Add(availableCharacter[index]);
             availableCharacter.RemoveAt(index);
         }
+        PlayerInventory.enemyLineUp = tempList;
         updateList(tempList);
         foreach(Character chara in tempList){
             availableCharacter.Add(chara);

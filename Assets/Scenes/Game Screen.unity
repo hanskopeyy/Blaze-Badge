@@ -1637,7 +1637,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1319961405
 GameObject:
@@ -1723,6 +1723,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1368995999
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1368996000}
+  m_Layer: 0
+  m_Name: TeamContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1368996000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368995999}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.16267768, y: -0.01787769, z: -0.03773948}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1370096011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1370096012}
+  m_Layer: 0
+  m_Name: EnemyContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1370096012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370096011}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.16267768, y: -0.01787769, z: -0.03773948}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1972577260
 GameObject:
   m_ObjectHideFlags: 0
@@ -1784,7 +1846,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4519359856688761213, guid: 10c44bed8daded349a12ae3b8bc5fdbd, type: 3}
-  container: {fileID: 778128734}
+  charaprefab:
+  - {fileID: 7012321161025556663, guid: 41a731a98c37f6a4fb7c65428e1a88af, type: 3}
+  - {fileID: 1355790834281650121, guid: 89c20e1d645e718408cd9bb076b48a70, type: 3}
+  - {fileID: 4224260107847280058, guid: 1eb6f1290b2ef3d4e980e1d0bdc0f125, type: 3}
+  overlayContainer: {fileID: 778128734}
+  enemyContainer: {fileID: 1370096011}
+  teamContainer: {fileID: 1368995999}
   tileMap: {fileID: 194070911}
   obstacleMap: {fileID: 712632086}
   charaMap: {fileID: 726074793}
+  tileDatas:
+  - {fileID: 11400000, guid: 4a1de9adaf734a84ebf89a97d7a5edb2, type: 2}
+  - {fileID: 11400000, guid: 5d3dfc57460390148b17ee70e2bc14e6, type: 2}
+  - {fileID: 11400000, guid: 5202000db40356b42b9cf507087745da, type: 2}
+  - {fileID: 11400000, guid: de14dca8de70ddf45a4d010e40628c72, type: 2}
+  - {fileID: 11400000, guid: 564352c022162874490dafa9ed5548a8, type: 2}
+  - {fileID: 11400000, guid: 81a12670b437ec340964c10ec91ae2b2, type: 2}
+  - {fileID: 11400000, guid: d621a91a65c745e42ac64d6dac37a639, type: 2}
+  - {fileID: 11400000, guid: ff0563f1816756648a96ede3b2795d8a, type: 2}
+  - {fileID: 11400000, guid: f921ea03e1eb1314997fa1ef99c69800, type: 2}
+  - {fileID: 11400000, guid: 78c79acc3bb46c249b4cacd788b4b349, type: 2}
+  - {fileID: 11400000, guid: 21f67ca9c22c6014a98ed6f3e07764fa, type: 2}

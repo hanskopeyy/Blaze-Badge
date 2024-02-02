@@ -18,9 +18,17 @@ public class MouseController : MonoBehaviour
         var focusedTiledHit = GetFocusedOnTile();
         if(focusedTiledHit.HasValue)
         {
-            GameObject overlayTile = focusedTiledHit.Value.collider.gameObject;
-            transform.position = overlayTile.transform.position;
-            gameObject.GetComponent<SpriteRenderer>().sortingOrder = overlayTile.GetComponent<SpriteRenderer>().sortingOrder+3;
+            var collideObject = focusedTiledHit.Value.collider.gameObject;
+            transform.position = collideObject.transform.position;
+            gameObject.GetComponent<SpriteRenderer>().sortingOrder = collideObject.GetComponent<SpriteRenderer>().sortingOrder+5;
+
+            var character = collideObject.GetComponent<SetupChara>();
+            if(Input.GetMouseButtonDown(0))
+            {
+                if(!character.isEnemy){
+                    Debug.Log("Selected "+character.characterData.charaName);
+                }
+            }
         }
     }
 
