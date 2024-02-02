@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 
 public class CharacterController : MonoBehaviour
 {
@@ -44,6 +44,13 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    public void selectionButton(){
+        if(ListState == 0){
+            switchToEquipment();
+        } else {
+            readyToFight();
+        }
+    }
     public void switchToEquipment(){
         if(clickable.isTeamReady()){
             foreach(GameObject go in charaList){
@@ -60,6 +67,11 @@ public class CharacterController : MonoBehaviour
             }
             ListState = 1;
         }
+    }
+
+    public void readyToFight(){
+        scm.lockLineup();
+        SceneManager.LoadScene("Game Screen");
     }
 
     public void equipItem(Equipment eqData){

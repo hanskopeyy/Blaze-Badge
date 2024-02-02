@@ -13,8 +13,11 @@ public class SelectedCharacterManager : MonoBehaviour
     private SelectedCharaUI selectedUI;
 
     private List<GameObject> characters = new List<GameObject>();    
+    private List<Character> lastestLineup;
+
     public void updateList(List<Character> selectedCharacters)
     {
+        lastestLineup = selectedCharacters;
         if(characters.Count > 0){
             foreach(GameObject go in characters){
                 Destroy(go);
@@ -28,6 +31,7 @@ public class SelectedCharacterManager : MonoBehaviour
             characters.Add(newChar);
         }
     }
+
     public void selectEquipTarget(Character selectChara, SelectedCharaUI scUI){
         selectedChara = selectChara;
         Debug.Log(selectedChara.charaName + " is selected");
@@ -44,5 +48,9 @@ public class SelectedCharacterManager : MonoBehaviour
             selectedChara.unequip(eq);
             selectedUI.updateEquipment();
         }
+    }
+
+    public void lockLineup(){
+        PlayerInventory.selectedChara = lastestLineup;
     }
 }
