@@ -6,6 +6,10 @@ public class OverlayTile : MonoBehaviour
 {
     public int G,H;
     public int F { get { return G+H;}}
+
+    public int obstacleType;
+    public Vector2Int loc;
+    public OverlayTile prev;
     // Update is called once per frame
     void Update()
     {

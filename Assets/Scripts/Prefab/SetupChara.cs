@@ -6,7 +6,9 @@ public class SetupChara : MonoBehaviour
 {
     public bool isEnemy;
     public Character characterData;
-    public void setup(Character charaData, bool enemy)
+    public OverlayTile currentPosition;
+
+    public void setup(Character charaData, bool enemy, OverlayTile position)
     {
         if(charaData.charaType == 1){
             gameObject.GetComponent<SpriteRenderer>().color = new Color(255,0,0,1);
@@ -15,6 +17,7 @@ public class SetupChara : MonoBehaviour
         }
         isEnemy = enemy;
         characterData = charaData;
+        currentPosition = position;
     }    
     // Start is called before the first frame update
     void Start()
