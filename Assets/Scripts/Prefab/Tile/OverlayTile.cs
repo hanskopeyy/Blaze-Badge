@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ArrowShower;
 
 public class OverlayTile : MonoBehaviour
 {
@@ -10,11 +11,11 @@ public class OverlayTile : MonoBehaviour
     public int obstacleType;
     public Vector2Int loc;
     public OverlayTile prev;
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+    [SerializeField]
+    public List<Sprite> arrows;
+    [SerializeField]
+    public SpriteRenderer arrowSR;
 
     public void ShowTile()
     {
@@ -24,5 +25,15 @@ public class OverlayTile : MonoBehaviour
     public void HideTile()
     {
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        SetArrow(ArrowDir.None);
+    }
+    public void SetArrow(ArrowDir d)
+    {
+        if(d == ArrowDir.None){
+            arrowSR.enabled = false;
+        } else {
+            arrowSR.enabled = true;
+            arrowSR.sprite = arrows[(int)d];
+        }
     }
 }

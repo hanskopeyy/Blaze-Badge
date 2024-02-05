@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Pathfinder
 {
-    public List<OverlayTile> FindPath(OverlayTile start, OverlayTile end)
+    public List<OverlayTile> FindPath(OverlayTile start, OverlayTile end, List<OverlayTile> pathRange)
     {
         List<OverlayTile> openList = new List<OverlayTile>();
         List<OverlayTile> closedList = new List<OverlayTile>();
@@ -24,7 +24,7 @@ public class Pathfinder
                 return GetFinishList(start, end);                
             }
 
-            List<OverlayTile> neighbor = GetNeighbor(curr);
+            List<OverlayTile> neighbor = MapManager.Instance.GetNeighbor(curr, pathRange);
             foreach(OverlayTile n in neighbor)
             {
                 if(n.obstacleType == 3 || closedList.Contains(n))
@@ -50,7 +50,6 @@ public class Pathfinder
 
         while(current != start)
         {
-            current.GetComponent<SpriteRenderer>().enabled = true;
             finishList.Add(current);
             current = current.prev;
         }
@@ -61,27 +60,5 @@ public class Pathfinder
     private int GetManhattan(OverlayTile a, OverlayTile b)
     {
         return Mathf.Abs(a.loc.x - b.loc.x) + Mathf.Abs(a.loc.y - b.loc.y);
-    }
-
-    private List<OverlayTile> GetNeighbor(OverlayTile current)
-    {
-        var map = MapManager.Instance.mapDict;
-
-        List<OverlayTile> neighbors = new List<OverlayTile>();
-        List<Vector2Int> checkLocations = new List<Vector2Int>();
-
-        checkLocations.Add(new Vector2Int(current.loc.x +1, current.loc.y));
-        checkLocations.Add(new Vector2Int(current.loc.x -1, current.loc.y));
-        checkLocations.Add(new Vector2Int(current.loc.x, current.loc.y +1));
-        checkLocations.Add(new Vector2Int(current.loc.x, current.loc.y -1));
-
-        foreach(Vector2Int check in checkLocations)
-        {
-            if(map.ContainsKey(check))
-            {
-                neighbors.Add(map[check]);
-            }
-        }
-        return neighbors;
     }
 }

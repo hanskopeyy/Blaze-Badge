@@ -106,4 +106,35 @@ public class MapManager : MonoBehaviour
         }
         charaMap.GetComponent<TilemapRenderer>().enabled = false;
     }
+
+    public List<OverlayTile> GetNeighbor(OverlayTile current, List<OverlayTile> rangeTiles)
+    {
+        Dictionary<Vector2Int, OverlayTile> tileRange = new Dictionary<Vector2Int, OverlayTile>();
+        if(rangeTiles.Count > 0)
+        {
+            foreach(OverlayTile tile in rangeTiles)
+            {
+                tileRange.Add(tile.loc, tile);
+            }
+        } else {
+            tileRange = MapManager.Instance.mapDict;
+        }
+
+        List<OverlayTile> neighbors = new List<OverlayTile>();
+        List<Vector2Int> checkLocations = new List<Vector2Int>();
+
+        checkLocations.Add(new Vector2Int(current.loc.x +1, current.loc.y));
+        checkLocations.Add(new Vector2Int(current.loc.x -1, current.loc.y));
+        checkLocations.Add(new Vector2Int(current.loc.x, current.loc.y +1));
+        checkLocations.Add(new Vector2Int(current.loc.x, current.loc.y -1));
+
+        foreach(Vector2Int check in checkLocations)
+        {
+            if(tileRange.ContainsKey(check))
+            {
+                neighbors.Add(tileRange[check]);
+            }
+        }
+        return neighbors;
+    }
 }
