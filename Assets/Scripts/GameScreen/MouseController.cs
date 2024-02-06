@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using static ArrowShower;
+using static ToolTipManager;
 
 public class MouseController : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class MouseController : MonoBehaviour
     private List<OverlayTile> path = new List<OverlayTile>();
     private List<OverlayTile> rangeTiles = new List<OverlayTile>();
     private bool isMoving;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,23 +59,54 @@ public class MouseController : MonoBehaviour
                     }
                     path[i].SetArrow(ArrowShower.GetDirection(prev, path[i],next));
                 }
+            } else if(collideObject.GetComponent<SetupChara>() != null)
+            {
+                Character characterInfo = collideObject.GetComponent<SetupChara>().characterData;
+                string tooltipContent = "";
+                switch(characterInfo.charaType){
+                    case 1:
+                        tooltipContent += "Physical ";
+                        break;
+                    case 2:
+                        tooltipContent += "Magical ";
+                        break;
+                }
+                switch(characterInfo.charaClass){
+                    case 1:
+                        tooltipContent += "Infantry\n";
+                        break;
+                    case 2:
+                        tooltipContent += "Cavalry\n";
+                        break;
+                    case 3:
+                        tooltipContent += "Flier\n";
+                        break;
+                }
+                tooltipContent += "HP: " + characterInfo.charaHP.ToString() + "\n";
+                tooltipContent += "ATK: " + characterInfo.charaATK.ToString() + "\n";
+                tooltipContent += "DEF: " + characterInfo.charaDEF.ToString() + "\n";
+                tooltipContent += "RES: " + characterInfo.charaRES.ToString();
+                ToolTipManager.ShowTooltip(tooltipContent, characterInfo.charaName);
             }
 
             if(Input.GetMouseButtonDown(0))
             {
                 var character = collideObject.GetComponent<SetupChara>();
                 if(character == null && selectedCharacter != null){
-                    Debug.Log("Moving "+ selectedCharacter.characterData.charaName);
                     if(path.Count > 0)
                     {
                         MoveChara();
                     }
-                } else if(!character.isEnemy){
+                } else if(!character.isEnemy && character != null){
                     Debug.Log(character.characterData.charaName + "is selected");
                     selectedCharacter = character;
                     GetRange();
                 }
             }
+        }
+        if(isMoving == true)
+        {
+            MoveChara();
         }
     }
 
