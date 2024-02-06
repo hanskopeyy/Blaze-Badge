@@ -89,6 +89,7 @@ public class MapManager : MonoBehaviour
                             newEnemy.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
                             newEnemy.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
                             newEnemy.GetComponent<SetupChara>().setup(enemyList[data.num], true, overlayTile);
+                            overlayTile.isBlocked = true;
                             enemyObjects.Add(newEnemy);
                         } else {
                             GameObject newTeam = Instantiate(charaprefab[(selectedList[data.num].charaClass)-1],teamContainer.transform);
@@ -97,6 +98,7 @@ public class MapManager : MonoBehaviour
                             newTeam.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
                             newTeam.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
                             newTeam.GetComponent<SetupChara>().setup(selectedList[data.num], false, overlayTile);
+                            overlayTile.isBlocked = true;
                             charaObjects.Add(newTeam);
                         }
                     }

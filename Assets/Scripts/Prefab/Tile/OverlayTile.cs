@@ -9,6 +9,9 @@ public class OverlayTile : MonoBehaviour
     public int F { get { return G+H;}}
 
     public int obstacleType;
+    public bool isBlocked;
+    public int movementCost;
+    public int remainingMove;
     public Vector2Int loc;
     public OverlayTile prev;
 

@@ -36,7 +36,7 @@ public class MouseController : MonoBehaviour
             var overlay = collideObject.GetComponent<OverlayTile>();
 
             if(rangeTiles.Count > 0 && !isMoving && overlay != null){
-                path = pf.FindPath(selectedCharacter.currentPosition, overlay, rangeTiles);
+                path = pf.FindPath(selectedCharacter.currentPosition, overlay, rangeTiles, 3, selectedCharacter.characterData.charaClass);
 
                 foreach(OverlayTile tile in rangeTiles)
                 {
@@ -45,18 +45,9 @@ public class MouseController : MonoBehaviour
 
                 for(int i = 0; i<path.Count; i++)
                 {
-                    OverlayTile prev, next;
-                    if(i > 0){
-                        prev = path[i-1];
-                    } else {
-                        prev = selectedCharacter.currentPosition;
-                    }
-                    if(i < (path.Count-1))
-                    {
-                        next = path[i+1];
-                    } else {
-                        next = null;
-                    }
+                    OverlayTile prev = i > 0 ? path[i - 1] : selectedCharacter.currentPosition;
+                    OverlayTile next = i < path.Count - 1 ? path[i + 1] : null;
+                    
                     path[i].SetArrow(ArrowShower.GetDirection(prev, path[i],next));
                 }
             } else if(collideObject.GetComponent<SetupChara>() != null)
@@ -131,7 +122,9 @@ public class MouseController : MonoBehaviour
 
         if(Vector2.Distance(selectedCharacter.transform.position, path[0].transform.position) < 0.01f)
         {
+            selectedCharacter.currentPosition.isBlocked = false;
             selectedCharacter.currentPosition = path[0];
+            selectedCharacter.currentPosition.isBlocked = true;
             path.RemoveAt(0);
             if(path.Count == 0){
                 isMoving = false;
