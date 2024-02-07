@@ -52,6 +52,7 @@ public class CharacterController : MonoBehaviour
         }
     }
     public void switchToEquipment(){
+        scm.lockLineup();
         if(clickable.isTeamReady()){
             foreach(GameObject go in charaList){
                 Destroy(go);
@@ -70,7 +71,6 @@ public class CharacterController : MonoBehaviour
     }
 
     public void readyToFight(){
-        scm.lockLineup();
         SceneManager.LoadScene("Game Screen");
     }
 

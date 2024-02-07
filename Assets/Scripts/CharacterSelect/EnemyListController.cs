@@ -11,12 +11,13 @@ public class EnemyListController : MonoBehaviour
     private GameObject prefab;
 
     private List<Character> availableCharacter;
+    public List<Character> enemyLineup = new List<Character>();
     private List<GameObject> enemyList = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
         availableCharacter = new List<Character>(PlayerInventory.availChara);
-        randomizeEnemy();
+        enemyLineup = randomizeEnemy();
     }
 
     private void updateList(List<Character> enemy){
@@ -33,7 +34,7 @@ public class EnemyListController : MonoBehaviour
         }
     }
 
-    public void randomizeEnemy(){
+    public List<Character> randomizeEnemy(){
         List<Character> tempList = new List<Character>();
         for(int i = 0; i<4; i++){
             int index = Random.Range(0,(availableCharacter.Count-1));
@@ -41,16 +42,10 @@ public class EnemyListController : MonoBehaviour
             tempList.Add(availableCharacter[index]);
             availableCharacter.RemoveAt(index);
         }
-        PlayerInventory.enemyLineUp = tempList;
         updateList(tempList);
         foreach(Character chara in tempList){
             availableCharacter.Add(chara);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return tempList;
     }
 }

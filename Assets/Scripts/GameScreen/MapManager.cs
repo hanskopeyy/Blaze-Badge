@@ -89,6 +89,8 @@ public class MapManager : MonoBehaviour
                             newEnemy.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
                             newEnemy.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
                             newEnemy.GetComponent<SetupChara>().setup(enemyList[data.num], true, overlayTile);
+                            overlayTile.obstacleType = 4;
+                            overlayTile.standingChara = enemyList[data.num];
                             overlayTile.isBlocked = true;
                             enemyObjects.Add(newEnemy);
                         } else {

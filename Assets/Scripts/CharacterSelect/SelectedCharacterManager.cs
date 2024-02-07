@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelectedCharacterManager : MonoBehaviour
 {
@@ -8,6 +9,10 @@ public class SelectedCharacterManager : MonoBehaviour
     private Transform scrollViewContent;
     [SerializeField]
     private GameObject prefab;
+    [SerializeField]
+    private EnemyListController elc;
+    [SerializeField]
+    private Button randomEnemyButton;
 
     private Character selectedChara = null;
     private SelectedCharaUI selectedUI;
@@ -51,6 +56,16 @@ public class SelectedCharacterManager : MonoBehaviour
     }
 
     public void lockLineup(){
-        PlayerInventory.selectedChara = lastestLineup;
+        randomEnemyButton.enabled = false;
+        foreach(Character c in elc.enemyLineup)
+        {
+            PlayerInventory.enemyLineUp.Add(new Character(c.charaName, c.charaClass, c.charaType, c.charaHP, c.charaATK, c.charaDEF, c.charaRES));
+        }
+        foreach(Character c in lastestLineup)
+        {
+            PlayerInventory.selectedChara.Add(new Character(c.charaName, c.charaClass, c.charaType, c.charaHP, c.charaATK, c.charaDEF, c.charaRES));
+        }
+        updateList(new List<Character>(PlayerInventory.selectedChara));
+
     }
 }

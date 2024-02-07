@@ -479,6 +479,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scrollViewContent: {fileID: 487297310}
   prefab: {fileID: 2770078605166021730, guid: 0750aeaf0309c134db3199797150d61e, type: 3}
+  elc: {fileID: 2043045969}
+  randomEnemyButton: {fileID: 973678523}
 --- !u!114 &487297312
 MonoBehaviour:
   m_ObjectHideFlags: 0

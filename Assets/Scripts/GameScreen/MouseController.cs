@@ -107,6 +107,14 @@ public class MouseController : MonoBehaviour
         {
             tile.HideTile();
         }
+        List<OverlayTile> currentNeighbor = MapManager.Instance.GetNeighbor(selectedCharacter.currentPosition, new List<OverlayTile>());
+        List<Character> encounter = new List<Character>();
+        foreach(OverlayTile neighbor in currentNeighbor)
+        {
+            if(neighbor.obstacleType == 4){
+                encounter.Add(neighbor.standingChara);
+            }
+        }
         rangeTiles = range.GetCharacterRange(selectedCharacter.currentPosition, 3);
         foreach(OverlayTile tile in rangeTiles)
         {
