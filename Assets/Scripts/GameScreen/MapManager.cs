@@ -101,6 +101,7 @@ public class MapManager : MonoBehaviour
                             newTeam.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
                             newTeam.GetComponent<SetupChara>().setup(selectedList[data.num], false, overlayTile);
                             overlayTile.isBlocked = true;
+                            overlayTile.standingChara = selectedList[data.num];
                             charaObjects.Add(newTeam);
                         }
                     }

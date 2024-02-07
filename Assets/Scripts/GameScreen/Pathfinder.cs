@@ -18,12 +18,9 @@ public class Pathfinder
         {
             OverlayTile curr = openList.OrderBy(x => x.F).First();
             openList.Remove(curr);
-            if(curr.movementCost >= moveMax || curr.remainingMove < 0){
-                continue;
-            }
             closedList.Add(curr);
 
-            if(curr == end)
+            if(curr == end && curr != start)
             {
                 return GetFinishList(start, end);                
             }
@@ -37,17 +34,16 @@ public class Pathfinder
                 }
                 switch(n.obstacleType){
                     case 0:
-                        n.movementCost = 1;
+                        n.movementCost = curr.movementCost + 1;
                         n.remainingMove = (curr.remainingMove - 1);
                         break;
                     case 1:
                         if(charaType == 3 || charaType == -1)
                         {
-                            n.movementCost = 1;
+                            n.movementCost = curr.movementCost + 1;
                             n.remainingMove = (curr.remainingMove - 1);
                         } else {
-                            n.movementCost = 999;
-                            n.remainingMove = 0;
+                            continue;
                         }
                         break;
                     case 2:
@@ -55,20 +51,20 @@ public class Pathfinder
                             n.movementCost = 1;
                             n.remainingMove = (curr.remainingMove - 1);
                         } else if (charaType == 2){
-                            n.movementCost = 999;
-                            n.remainingMove = 0;
+                            continue;
                         } else if (charaType == 1){
-                            n.movementCost = 2;
+                            n.movementCost = curr.movementCost + 2;
                             n.remainingMove = (curr.remainingMove - 2);
                         }
                         break;
                 }
+                if(n.movementCost > moveMax || n.remainingMove < 0){
+                    continue;
+                }
                 n.G = GetManhattan(start,n);
                 n.H = GetManhattan(end, n);
                 n.prev = curr;
-                if(!openList.Contains(n)){
-                    openList.Add(n);
-                }
+                openList.Add(n);
             }
         }
         return new List<OverlayTile>();
@@ -85,9 +81,6 @@ public class Pathfinder
             current = current.prev;
         }
         finishList.Reverse();
-        foreach(OverlayTile tile in finishList){
-            Debug.Log("("+tile.loc.x+","+tile.loc.y+") Cost: "+tile.movementCost+", Remaining: "+ tile.remainingMove);
-        }
         return finishList;
     }
 

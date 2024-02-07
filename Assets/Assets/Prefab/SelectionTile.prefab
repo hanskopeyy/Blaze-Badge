@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 1989466256, guid: f0de48bce7400ff44afd3d781910ea70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -186,6 +186,9 @@ MonoBehaviour:
   G: 0
   H: 0
   obstacleType: 0
+  isBlocked: 0
+  movementCost: 0
+  remainingMove: 0
   loc: {x: 0, y: 0}
   prev: {fileID: 0}
   arrows:

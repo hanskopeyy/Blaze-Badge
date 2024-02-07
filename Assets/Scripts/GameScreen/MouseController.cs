@@ -14,6 +14,7 @@ public class MouseController : MonoBehaviour
 
     private List<OverlayTile> path = new List<OverlayTile>();
     private List<OverlayTile> rangeTiles = new List<OverlayTile>();
+    private List<OverlayTile> DetectedList = new List<OverlayTile>();
     private bool isMoving;
 
     // Start is called before the first frame update
@@ -37,6 +38,24 @@ public class MouseController : MonoBehaviour
 
             if(rangeTiles.Count > 0 && !isMoving && overlay != null){
                 path = pf.FindPath(selectedCharacter.currentPosition, overlay, rangeTiles, 3, selectedCharacter.characterData.charaClass);
+
+                foreach(OverlayTile dtile in DetectedList)
+                {
+                    dtile.HideTile();
+                    dtile.GetComponent<SpriteRenderer>().color = new Color(255,255,255,1);
+                }
+                DetectedList.Clear();
+                if(path.Count > 0){
+                    List<OverlayTile> finalNeighbor = MapManager.Instance.GetNeighbor(path[( path.Count - 1)], new List<OverlayTile>());
+                    foreach(OverlayTile neighbor in finalNeighbor)
+                    {
+                        if(neighbor.obstacleType == 4){
+                            neighbor.GetComponent<SpriteRenderer>().color = new Color(255,0,0,1);
+                            neighbor.ShowTile();
+                            DetectedList.Add(neighbor);
+                        }
+                    }
+                }
 
                 foreach(OverlayTile tile in rangeTiles)
                 {
@@ -131,8 +150,11 @@ public class MouseController : MonoBehaviour
         if(Vector2.Distance(selectedCharacter.transform.position, path[0].transform.position) < 0.01f)
         {
             selectedCharacter.currentPosition.isBlocked = false;
+            selectedCharacter.currentPosition.standingChara = null;
             selectedCharacter.currentPosition = path[0];
             selectedCharacter.currentPosition.isBlocked = true;
+            selectedCharacter.currentPosition.standingChara = selectedCharacter.characterData;
+
             path.RemoveAt(0);
             if(path.Count == 0){
                 isMoving = false;

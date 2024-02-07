@@ -68,6 +68,7 @@ public class CharacterController : MonoBehaviour
             }
             ListState = 1;
         }
+        
     }
 
     public void readyToFight(){
