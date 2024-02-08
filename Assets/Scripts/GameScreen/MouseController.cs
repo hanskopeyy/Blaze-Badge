@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Linq;
 using System;
 using static ArrowShower;
@@ -16,6 +17,12 @@ public class MouseController : MonoBehaviour
     private List<OverlayTile> rangeTiles = new List<OverlayTile>();
     private List<OverlayTile> DetectedList = new List<OverlayTile>();
     private bool isMoving;
+
+    [SerializeField]
+    private EncounterUI encounterUI;
+
+    [SerializeField]
+    private SceneInformation sceneInfo;
 
     // Start is called before the first frame update
     void Start()
@@ -127,11 +134,14 @@ public class MouseController : MonoBehaviour
             tile.HideTile();
         }
         List<OverlayTile> currentNeighbor = MapManager.Instance.GetNeighbor(selectedCharacter.currentPosition, new List<OverlayTile>());
-        List<Character> encounter = new List<Character>();
         foreach(OverlayTile neighbor in currentNeighbor)
         {
             if(neighbor.obstacleType == 4){
-                encounter.Add(neighbor.standingChara);
+                Debug.Log("Encountered " + neighbor.standingChara.charaName);
+                if(PlayerInventory.encounter.Count == 0){
+                    encounterUI.doEncounter();
+                }
+                PlayerInventory.encounter.Add(new Encounter(selectedCharacter.characterData, neighbor.standingChara));
             }
         }
         rangeTiles = range.GetCharacterRange(selectedCharacter.currentPosition, 3);
@@ -141,10 +151,16 @@ public class MouseController : MonoBehaviour
         }
     }
 
+    public void encounterAnimFinished()
+    {
+        sceneInfo.mapDictionary = MapManager.Instance.mapDict;
+        SceneManager.LoadScene("Fight Scene");
+    }
+
     private void MoveChara()
     {
         isMoving = true;
-        var step = 1 * Time.deltaTime;
+        var step = 3 * Time.deltaTime;
         selectedCharacter.transform.position = Vector2.MoveTowards(selectedCharacter.transform.position, path[0].transform.position, step);
 
         if(Vector2.Distance(selectedCharacter.transform.position, path[0].transform.position) < 0.01f)

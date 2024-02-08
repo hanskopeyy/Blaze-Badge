@@ -20,8 +20,8 @@ public class ToolTipManager : MonoBehaviour
 
     public static void ShowTooltip(string content, string header = "")
     {
-        ToolTipManager.Instance.tooltip.SetTooltipText(content, header);
         ToolTipManager.Instance.tooltip.gameObject.SetActive(true);
+        ToolTipManager.Instance.tooltip.SetTooltipText(content, header);
     }
     public static void HideTooltip()
     {

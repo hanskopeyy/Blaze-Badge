@@ -19,6 +19,7 @@ public class Character
             2 = Magic
     */
     public string charaName;
+    public int maxHP;
     public int charaHP, charaATK, charaDEF, charaRES;
     private List<Equipment> currEquip;
 
@@ -27,6 +28,7 @@ public class Character
         charaClass = newclass;
         charaType = type;
         charaHP = hp;
+        maxHP = hp;
         charaATK = atk;
         charaDEF = def;
         charaRES = res;

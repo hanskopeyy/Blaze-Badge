@@ -9,6 +9,9 @@ public class MapManager : MonoBehaviour
     public static MapManager Instance { get { return _instance; }}
 
     [SerializeField]
+    private SceneInformation sceneInfo;
+
+    [SerializeField]
     private OverlayTile prefab;
     [SerializeField]
     private List<GameObject> charaprefab;
@@ -21,6 +24,7 @@ public class MapManager : MonoBehaviour
     private List<TileData> tileDatas;
     private Dictionary<TileBase, TileData> tileDict = new Dictionary<TileBase, TileData>();
     public Dictionary<Vector2Int, OverlayTile> mapDict;
+    public Dictionary<Vector2Int, OverlayTile> oldDict;
 
     private List<Character> enemyList, selectedList;
     private List<GameObject> enemyObjects = new List<GameObject>();
@@ -39,6 +43,13 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         mapDict = new Dictionary<Vector2Int, OverlayTile>();
+        if(!sceneInfo.isFirstLoad)
+        {
+            Debug.Log(sceneInfo.mapDictionary.Count);
+            oldDict = sceneInfo.mapDictionary;
+        } else {
+            oldDict = null;
+        }
         //Initiate Tile Data
         foreach(TileData td in tileDatas){
             foreach(TileBase tb in td.tiles)
@@ -78,31 +89,71 @@ public class MapManager : MonoBehaviour
                     }
 
                     // Instantiate Character
-                    if(charaMap.HasTile(tileLoc))
+                    if(charaMap.HasTile(tileLoc) && sceneInfo.isFirstLoad)
                     {
                         TileData data = tileDict[charaMap.GetTile(tileLoc)];
                         if(data.isEnemy)
                         {
-                            GameObject newEnemy = Instantiate(charaprefab[(enemyList[data.num].charaClass)-1],enemyContainer.transform);
-                            var cellPosition = tileMap.GetCellCenterWorld(tileLoc);
+                            if(enemyList[data.num].charaHP > 0){
+                                GameObject newEnemy = Instantiate(charaprefab[(enemyList[data.num].charaClass)-1],enemyContainer.transform);
+                                var cellPosition = tileMap.GetCellCenterWorld(tileLoc);
 
-                            newEnemy.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
-                            newEnemy.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
-                            newEnemy.GetComponent<SetupChara>().setup(enemyList[data.num], true, overlayTile);
-                            overlayTile.obstacleType = 4;
-                            overlayTile.standingChara = enemyList[data.num];
-                            overlayTile.isBlocked = true;
-                            enemyObjects.Add(newEnemy);
+                                newEnemy.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
+                                newEnemy.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
+                                newEnemy.GetComponent<SetupChara>().setup(enemyList[data.num], true, overlayTile);
+                                overlayTile.obstacleType = 4;
+                                overlayTile.standingChara = enemyList[data.num];
+                                overlayTile.isBlocked = true;
+                                enemyObjects.Add(newEnemy);
+                            }
                         } else {
-                            GameObject newTeam = Instantiate(charaprefab[(selectedList[data.num].charaClass)-1],teamContainer.transform);
-                            var cellPosition = tileMap.GetCellCenterWorld(tileLoc);
+                            if(selectedList[data.num].charaHP > 0){
+                                GameObject newTeam = Instantiate(charaprefab[(selectedList[data.num].charaClass)-1],teamContainer.transform);
+                                var cellPosition = tileMap.GetCellCenterWorld(tileLoc);
 
-                            newTeam.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
-                            newTeam.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
-                            newTeam.GetComponent<SetupChara>().setup(selectedList[data.num], false, overlayTile);
-                            overlayTile.isBlocked = true;
-                            overlayTile.standingChara = selectedList[data.num];
-                            charaObjects.Add(newTeam);
+                                newTeam.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
+                                newTeam.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
+                                newTeam.GetComponent<SetupChara>().setup(selectedList[data.num], false, overlayTile);
+                                overlayTile.isBlocked = true;
+                                overlayTile.standingChara = selectedList[data.num];
+                                charaObjects.Add(newTeam);
+                            }
+                        }
+                    }
+                    if(!sceneInfo.isFirstLoad)
+                    {
+                        if(oldDict[tileKey].standingChara != null)
+                        {
+                            Character theChara = oldDict[tileKey].standingChara;
+                            if(enemyList.Contains(oldDict[tileKey].standingChara))
+                            {
+                                if(theChara.charaHP > 0)
+                                {
+                                    GameObject newEnemy = Instantiate(charaprefab[(theChara.charaClass)-1],enemyContainer.transform);
+                                    var cellPosition = tileMap.GetCellCenterWorld(tileLoc);
+
+                                    newEnemy.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
+                                    newEnemy.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
+                                    newEnemy.GetComponent<SetupChara>().setup(theChara, true, overlayTile);
+                                    overlayTile.obstacleType = 4;
+                                    overlayTile.standingChara = theChara;
+                                    overlayTile.isBlocked = true;
+                                    enemyObjects.Add(newEnemy);
+                                }
+                            } else {
+                                if(theChara.charaHP > 0)
+                                {
+                                    GameObject newTeam = Instantiate(charaprefab[(theChara.charaClass)-1],teamContainer.transform);
+                                    var cellPosition = tileMap.GetCellCenterWorld(tileLoc);
+
+                                    newTeam.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
+                                    newTeam.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
+                                    newTeam.GetComponent<SetupChara>().setup(theChara, false, overlayTile);
+                                    overlayTile.isBlocked = true;
+                                    overlayTile.standingChara = theChara;
+                                    charaObjects.Add(newTeam);
+                                }
+                            }
                         }
                     }
                     mapDict.Add(tileKey, overlayTile);

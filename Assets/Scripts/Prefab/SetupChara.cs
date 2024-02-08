@@ -8,7 +8,7 @@ public class SetupChara : MonoBehaviour
     public Character characterData;
     public OverlayTile currentPosition;
 
-    public void setup(Character charaData, bool enemy, OverlayTile position)
+    public void setup(Character charaData, bool enemy = false, OverlayTile position = null)
     {
         if(charaData.charaType == 1){
             gameObject.GetComponent<SpriteRenderer>().color = new Color(255,0,0,1);

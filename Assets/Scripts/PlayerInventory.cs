@@ -8,4 +8,5 @@ public class PlayerInventory : MonoBehaviour
     public static List<Equipment> ownedEquipment = new List<Equipment>();
     public static List<Character> selectedChara = new List<Character>();
     public static List<Character> enemyLineUp = new List<Character>();
+    public static List<Encounter> encounter = new List<Encounter>();
 }
