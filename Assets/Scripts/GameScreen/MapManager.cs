@@ -45,7 +45,6 @@ public class MapManager : MonoBehaviour
         mapDict = new Dictionary<Vector2Int, OverlayTile>();
         if(!sceneInfo.isFirstLoad)
         {
-            Debug.Log(sceneInfo.mapDictionary.Count);
             oldDict = sceneInfo.mapDictionary;
         } else {
             oldDict = null;
