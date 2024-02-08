@@ -42,8 +42,10 @@ public class FightController : MonoBehaviour
                         calculate = enemyInfo.calculateInfo();
                         if(!calculate){
                             isDoneAttack = true;
+                            yield return new WaitForSeconds(0.5f);
+                        } else {
+                            yield return new WaitForSeconds(Time.deltaTime);
                         }
-                        yield return new WaitForSeconds(Time.deltaTime);
                     } else {
                         yield return new WaitForSeconds(Time.deltaTime);
                     }
@@ -75,6 +77,9 @@ public class FightController : MonoBehaviour
                         calculate = allyInfo.calculateInfo();
                         if(!calculate){
                             isDoneAttack = true;
+                            yield return new WaitForSeconds(0.5f);
+                        } else {
+                            yield return new WaitForSeconds(Time.deltaTime);
                         }
                         yield return new WaitForSeconds(Time.deltaTime);
                     } else {
