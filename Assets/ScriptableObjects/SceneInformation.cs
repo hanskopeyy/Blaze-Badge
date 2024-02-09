@@ -10,4 +10,8 @@ public class SceneInformation : ScriptableObject
     public bool isPlayerWin;
     public List<EnemyMovement> remainingEnemyMove;
     public Dictionary<Vector2Int,OverlayTile> mapDictionary;
+
+    void Awake(){
+        isFirstLoad = true;
+    }
 }

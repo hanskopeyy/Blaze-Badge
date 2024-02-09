@@ -31,10 +31,11 @@ public class TurnController : MonoBehaviour
         } else {
             btn_endTurn.gameObject.SetActive(true);
             txt_turnStatus.text = "Your Turn";
-            List<Character> playerTemp = PlayerInventory.selectedChara;
-            foreach(Character chara in playerTemp)
+            List<GameObject> playerTemp = MapManager.Instance.getPlayerObjects();
+            foreach(GameObject chara in playerTemp)
             {
-                chara.movementPts = 3;
+                chara.GetComponent<SetupChara>().characterData.movementPts = 3;
+                chara.GetComponent<SetupChara>().enableChara();
             }
         }
     }
@@ -50,7 +51,16 @@ public class TurnController : MonoBehaviour
         } else {
             btn_endTurn.gameObject.SetActive(true);
             txt_turnStatus.text = "Your Turn";
-            List<Character> playerTemp = PlayerInventory.selectedChara;
+            List<GameObject> playerTemp = MapManager.Instance.getPlayerObjects();
+            foreach(GameObject chara in playerTemp)
+            {
+                if(chara.GetComponent<SetupChara>().characterData.movementPts > 0)
+                {
+                    chara.GetComponent<SetupChara>().enableChara();
+                } else {
+                    chara.GetComponent<SetupChara>().disableChara();
+                }
+            }
         }
     }
 }

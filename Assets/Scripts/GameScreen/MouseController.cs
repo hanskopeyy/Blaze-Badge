@@ -163,6 +163,8 @@ public class MouseController : MonoBehaviour
             {
                 tile.ShowTile();
             }
+        } else if(selectedCharacter.characterData.movementPts <= 0){
+            selectedCharacter.disableChara();
         }
     }
 

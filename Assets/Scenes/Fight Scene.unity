@@ -1411,11 +1411,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440a8fa7f86024446a6020056bace99c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charaprefab:
-  - {fileID: 7012321161025556663, guid: 41a731a98c37f6a4fb7c65428e1a88af, type: 3}
-  - {fileID: 1355790834281650121, guid: 89c20e1d645e718408cd9bb076b48a70, type: 3}
-  - {fileID: 4224260107847280058, guid: 1eb6f1290b2ef3d4e980e1d0bdc0f125, type: 3}
   characterContainer: {fileID: 889148610}
+  charaprefab: {fileID: 7012321161025556663, guid: 41a731a98c37f6a4fb7c65428e1a88af, type: 3}
   infoPrefab: {fileID: 5906582174254349101, guid: b702eb776b9795249b47701ae07f5572, type: 3}
   infoContainer: {fileID: 1841372149}
   charaMap: {fileID: 892545934}

@@ -7,12 +7,10 @@ using UnityEngine.Tilemaps;
 public class FightMapController : MonoBehaviour
 {
     [SerializeField]
-    private List<GameObject> charaprefab;
-    [SerializeField]
     private GameObject characterContainer;
 
     [SerializeField]
-    private GameObject infoPrefab, infoContainer;
+    private GameObject charaprefab, infoPrefab, infoContainer;
 
     [SerializeField]
     private Tilemap charaMap;
@@ -81,17 +79,12 @@ public class FightMapController : MonoBehaviour
 
     private GameObject instantiateChara(Character chara, GameObject charaInfo)
     {
-        GameObject newChara = Instantiate(charaprefab[(chara.charaClass)-1],characterContainer.transform);
+        GameObject newChara = Instantiate(charaprefab,characterContainer.transform);
         newChara.GetComponent<SetupChara>().setup(chara);
         newChara.transform.localScale = new Vector3(3, 3, 2);
 
         charaInfo.GetComponent<FightInfo>().setInformation(chara);
 
         return newChara;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

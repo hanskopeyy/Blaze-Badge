@@ -43,7 +43,7 @@ public class EnemyController : MonoBehaviour
             {
                 List<EnemyMovement> possibleMove = new List<EnemyMovement>();
                 SetupChara enemy = temp.GetComponent<SetupChara>();
-                if(enemy.characterData.charaHP == 0){
+                if(enemy.characterData.charaHP <= 0){
                     continue;
                 }
                 List<OverlayTile> enemyRange = range.GetCharacterRange(enemy.currentPosition, 3);
@@ -55,7 +55,7 @@ public class EnemyController : MonoBehaviour
                             continue;
                         }
                         int manhattan = Mathf.Abs(tile.loc.x - pTemp.GetComponent<SetupChara>().currentPosition.loc.x) + Mathf.Abs(tile.loc.y - pTemp.GetComponent<SetupChara>().currentPosition.loc.y);
-                        bool isEncounter = false;
+                        bool willEncounter = false;
                         List<OverlayTile> path = pf.FindPath(enemy.currentPosition, tile, enemyRange, enemy.characterData.charaClass, 3);
                         if(path.Count > 0)
                         {
@@ -64,12 +64,12 @@ public class EnemyController : MonoBehaviour
                             {
                                 if(neighborTile.standingChara != null && !neighborTile.isStandingEnemy)
                                 {
-                                    isEncounter = true;
-                                    possibleMove.Add(new EnemyMovement(enemy, tile, isEncounter, manhattan));
+                                    willEncounter = true;
+                                    possibleMove.Add(new EnemyMovement(enemy, tile, willEncounter, manhattan));
                                 }
                             }
-                            if(!isEncounter){
-                                possibleMove.Add(new EnemyMovement(enemy, tile, isEncounter, manhattan));
+                            if(!willEncounter){
+                                possibleMove.Add(new EnemyMovement(enemy, tile, willEncounter, manhattan));
                             }
                         }
                     }
@@ -82,21 +82,32 @@ public class EnemyController : MonoBehaviour
             }
             closedList.Clear();
         } else if(!isEncounter){
-            commitMove = sceneInfo.remainingEnemyMove;
-            sceneInfo.remainingEnemyMove = null;
-            foreach(EnemyMovement eMove in commitMove){
-                foreach(GameObject eObject in enemyObjects)
-                {
-                    if(eObject.GetComponent<SetupChara>().characterData == eMove.chara.characterData){
-                        eMove.chara = eObject.GetComponent<SetupChara>();
-                        Debug.Log("Replaced New Chara");
+            if(sceneInfo.remainingEnemyMove.Count > 0){
+                commitMove = sceneInfo.remainingEnemyMove;
+                foreach(EnemyMovement eMove in commitMove){
+                    if(eMove.chara.characterData.charaHP <= 0)
+                    {
+                        commitMove.Remove(eMove);
                     }
+                    foreach(GameObject eObject in enemyObjects)
+                    {
+                        if(eObject.GetComponent<SetupChara>().characterData == eMove.chara.characterData){
+                            eMove.chara = eObject.GetComponent<SetupChara>();
+                            Debug.Log("Replaced New Chara");
+                        }
+                    }
+                    eMove.targetTile = MapManager.Instance.getTileAt(eMove.targetTile.loc.x,eMove.targetTile.loc.y);
+                    Debug.Log("Replaced New Tile");
                 }
-                Debug.Log("Replaced New Tile");
-                eMove.targetTile = MapManager.Instance.getTileAt(eMove.targetTile.loc.x,eMove.targetTile.loc.y);
             }
+            sceneInfo.remainingEnemyMove = null;
         }
-        StartCoroutine(CommitMove());
+        if(commitMove.Count > 0)
+        {
+            StartCoroutine(CommitMove());
+        } else {
+            tc.changeTurn();
+        }
     }
 
     IEnumerator CommitMove(){
