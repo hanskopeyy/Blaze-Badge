@@ -21,7 +21,7 @@ public class MenuButtonController : MonoBehaviour
 
     public void goToGithub()
     {
-        Application.OpenURL("");
+        Application.OpenURL("https://github.com/hanskopeyy/Blaze-Badge");
     }
     
     public void quitGame()

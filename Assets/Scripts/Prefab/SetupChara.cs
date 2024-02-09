@@ -7,14 +7,12 @@ public class SetupChara : MonoBehaviour
     public bool isEnemy;
     public Character characterData;
     public OverlayTile currentPosition;
+    [SerializeField]
+    private List<Sprite> classIcons;
 
     public void setup(Character charaData, bool enemy = false, OverlayTile position = null)
     {
-        if(charaData.charaType == 1){
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(255,0,0,1);
-        } else {
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(0,255,0,1);
-        }
+        gameObject.GetComponent<SpriteRenderer>().sprite = classIcons[((charaData.charaClass-1)*2)+(charaData.charaType-1)];
         isEnemy = enemy;
         characterData = charaData;
         currentPosition = position;

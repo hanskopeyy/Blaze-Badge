@@ -105,8 +105,7 @@ public class MouseController : MonoBehaviour
                     tooltipContent += "HP: " + characterInfo.charaHP.ToString() + "\n";
                     tooltipContent += "ATK: " + characterInfo.charaATK.ToString() + "\n";
                     tooltipContent += "DEF: " + characterInfo.charaDEF.ToString() + "\n";
-                    tooltipContent += "RES: " + characterInfo.charaRES.ToString() + "\n";
-                    tooltipContent += "Movement Point: " + characterInfo.movementPts.ToString();
+                    tooltipContent += "RES: " + characterInfo.charaRES.ToString();
                     ToolTipManager.ShowTooltip(tooltipContent, characterInfo.charaName);
                 } else {
                     ToolTipManager.HideTooltip();

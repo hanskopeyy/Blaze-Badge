@@ -14,7 +14,7 @@ public class MapManager : MonoBehaviour
     [SerializeField]
     private OverlayTile prefab;
     [SerializeField]
-    private List<GameObject> charaprefab;
+    private GameObject charaprefab;
     [SerializeField]
     private GameObject overlayContainer, enemyContainer, teamContainer;
     [SerializeField]
@@ -99,7 +99,7 @@ public class MapManager : MonoBehaviour
                         if(data.isEnemy)
                         {
                             if(enemyList[data.num].charaHP > 0){
-                                GameObject newEnemy = Instantiate(charaprefab[(enemyList[data.num].charaClass)-1],enemyContainer.transform);
+                                GameObject newEnemy = Instantiate(charaprefab,enemyContainer.transform);
                                 var cellPosition = tileMap.GetCellCenterWorld(tileLoc);
 
                                 newEnemy.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
@@ -113,7 +113,7 @@ public class MapManager : MonoBehaviour
                             }
                         } else {
                             if(selectedList[data.num].charaHP > 0){
-                                GameObject newTeam = Instantiate(charaprefab[(selectedList[data.num].charaClass)-1],teamContainer.transform);
+                                GameObject newTeam = Instantiate(charaprefab,teamContainer.transform);
                                 var cellPosition = tileMap.GetCellCenterWorld(tileLoc);
 
                                 newTeam.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
@@ -136,7 +136,7 @@ public class MapManager : MonoBehaviour
                             {
                                 if(theChara.charaHP > 0)
                                 {
-                                    GameObject newEnemy = Instantiate(charaprefab[(theChara.charaClass)-1],enemyContainer.transform);
+                                    GameObject newEnemy = Instantiate(charaprefab,enemyContainer.transform);
                                     var cellPosition = tileMap.GetCellCenterWorld(tileLoc);
 
                                     newEnemy.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
@@ -151,7 +151,7 @@ public class MapManager : MonoBehaviour
                             } else {
                                 if(theChara.charaHP > 0)
                                 {
-                                    GameObject newTeam = Instantiate(charaprefab[(theChara.charaClass)-1],teamContainer.transform);
+                                    GameObject newTeam = Instantiate(charaprefab,teamContainer.transform);
                                     var cellPosition = tileMap.GetCellCenterWorld(tileLoc);
 
                                     newTeam.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);

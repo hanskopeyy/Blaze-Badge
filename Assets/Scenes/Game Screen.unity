@@ -3179,10 +3179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneInfo: {fileID: 11400000, guid: f6d00e4aee2021648ae8a18d28e5284c, type: 2}
   prefab: {fileID: 4519359856688761213, guid: 10c44bed8daded349a12ae3b8bc5fdbd, type: 3}
-  charaprefab:
-  - {fileID: 7012321161025556663, guid: 41a731a98c37f6a4fb7c65428e1a88af, type: 3}
-  - {fileID: 1355790834281650121, guid: 89c20e1d645e718408cd9bb076b48a70, type: 3}
-  - {fileID: 4224260107847280058, guid: 1eb6f1290b2ef3d4e980e1d0bdc0f125, type: 3}
+  charaprefab: {fileID: 7012321161025556663, guid: 41a731a98c37f6a4fb7c65428e1a88af, type: 3}
   overlayContainer: {fileID: 778128734}
   enemyContainer: {fileID: 1370096011}
   teamContainer: {fileID: 1368995999}

@@ -10,6 +10,10 @@ public class CharaListUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     private TextMeshProUGUI charaName, charaClass, hp, atk, def, res;
+    [SerializeField]
+    private List<Sprite> classIcons;
+    [SerializeField]
+    private Image charaClassIcon;
     private Character charaDetails;
     private ClickableCharacter clickable;
 
@@ -26,12 +30,30 @@ public class CharaListUI : MonoBehaviour, IPointerClickHandler
         switch(details.charaClass){
             case 1: 
                 charaClass.text = "Infantry";
+                if(details.charaType == 1)
+                {
+                    charaClassIcon.sprite = classIcons[0];
+                } else {
+                    charaClassIcon.sprite = classIcons[1];
+                }
                 break;
             case 2:
                 charaClass.text = "Cavalry";
+                if(details.charaType == 1)
+                {
+                    charaClassIcon.sprite = classIcons[2];
+                } else {
+                    charaClassIcon.sprite = classIcons[3];
+                }
                 break;
             case 3:
                 charaClass.text = "Flier";
+                if(details.charaType == 1)
+                {
+                    charaClassIcon.sprite = classIcons[4];
+                } else {
+                    charaClassIcon.sprite = classIcons[5];
+                }
                 break;
         }
         hp.text = details.charaHP.ToString();
