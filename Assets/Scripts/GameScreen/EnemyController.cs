@@ -43,6 +43,9 @@ public class EnemyController : MonoBehaviour
             {
                 List<EnemyMovement> possibleMove = new List<EnemyMovement>();
                 SetupChara enemy = temp.GetComponent<SetupChara>();
+                if(enemy.characterData.charaHP == 0){
+                    continue;
+                }
                 List<OverlayTile> enemyRange = range.GetCharacterRange(enemy.currentPosition, 3);
                 foreach(GameObject pTemp in playerObjects)
                 {

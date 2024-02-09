@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925511bededf75e47af062696d780f9f, type: 3}
   m_Name: SceneInformation
   m_EditorClassIdentifier: 
-  isFirstLoad: 0
-  isPlayerTurn: 0
+  isFirstLoad: 1
+  isPlayerTurn: 1
+  isPlayerWin: 1

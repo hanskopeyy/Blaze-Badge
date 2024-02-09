@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Fight Scene.unity
     guid: ad673089791e1b54cac7ae5d499e3381
+  - enabled: 1
+    path: Assets/Scenes/Result Screen.unity
+    guid: 8e0a9bcf1f606e34aa2892fea7371684
   m_configObjects: {}

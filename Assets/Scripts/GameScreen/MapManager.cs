@@ -27,6 +27,7 @@ public class MapManager : MonoBehaviour
     private Dictionary<TileBase, TileData> tileDict = new Dictionary<TileBase, TileData>();
     public Dictionary<Vector2Int, OverlayTile> mapDict;
     public Dictionary<Vector2Int, OverlayTile> oldDict;
+    private int enemyCounter = 0, allyCounter = 0;
 
     private List<Character> enemyList, selectedList;
     private List<GameObject> enemyObjects = new List<GameObject>();
@@ -108,6 +109,7 @@ public class MapManager : MonoBehaviour
                                 overlayTile.standingChara = enemyList[data.num];
                                 overlayTile.isBlocked = true;
                                 enemyObjects.Add(newEnemy);
+                                enemyCounter++;
                             }
                         } else {
                             if(selectedList[data.num].charaHP > 0){
@@ -121,6 +123,7 @@ public class MapManager : MonoBehaviour
                                 overlayTile.isBlocked = true;
                                 overlayTile.standingChara = selectedList[data.num];
                                 charaObjects.Add(newTeam);
+                                allyCounter++;
                             }
                         }
                     }
@@ -143,8 +146,7 @@ public class MapManager : MonoBehaviour
                                     overlayTile.standingChara = theChara;
                                     overlayTile.isBlocked = true;
                                     enemyObjects.Add(newEnemy);
-                                } else {
-                                    enemyList.RemoveAt(data.num);
+                                    enemyCounter++;
                                 }
                             } else {
                                 if(theChara.charaHP > 0)
@@ -159,8 +161,7 @@ public class MapManager : MonoBehaviour
                                     overlayTile.isBlocked = true;
                                     overlayTile.standingChara = theChara;
                                     charaObjects.Add(newTeam);
-                                } else {
-                                    selectedList.RemoveAt(data.num);
+                                    allyCounter++;
                                 }
                             }
                         }
@@ -172,10 +173,10 @@ public class MapManager : MonoBehaviour
         if(PlayerInventory.encounter.Count > 0){
             remainingEnemyMovement = sceneInfo.remainingEnemyMove;
             encounterUI.doEncounter(sceneInfo.isPlayerTurn);
-        } else if(enemyList.Count == 0) {
-            // Insert Winning Here
-        } else if(selectedList.Count == 0){
-            // Insert Losing Here
+        } else if(enemyCounter == 0) {
+            encounterUI.doResultScreen(true);
+        } else if(allyCounter == 0){
+            encounterUI.doResultScreen(false);
         }
         charaMap.GetComponent<TilemapRenderer>().enabled = false;
     }
