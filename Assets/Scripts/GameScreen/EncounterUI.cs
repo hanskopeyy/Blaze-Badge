@@ -16,6 +16,9 @@ public class EncounterUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI txtEncounter;
 
+    [SerializeField]
+    private List<Sprite> classIcons;
+
     private Rect encounterRect;
     private float bg_height, bg_width, curr_height;
 
@@ -70,6 +73,10 @@ public class EncounterUI : MonoBehaviour
         txtEncounter.text = "VS";
         EncounterBG.gameObject.SetActive(true);
         EncounterBG.rectTransform.sizeDelta = new Vector2(bg_width,0);
+        Encounter encounter = PlayerInventory.encounter[0];
+        charaImage.sprite = classIcons[((encounter.ally.charaClass-1)*2)+(encounter.ally.charaType-1)];
+        enemyImage.sprite = classIcons[((encounter.enemy.charaClass-1)*2)+(encounter.enemy.charaType-1)];
+        enemyImage.rectTransform.sizeDelta = new Vector2((enemyImage.rectTransform.rect.width * (-1)),enemyImage.rectTransform.rect.height);
         isEncounter = true;
     }
 

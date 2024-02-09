@@ -31,6 +31,7 @@ public class MouseController : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().enabled = true;        
         pf = new Pathfinder();
         range = new RangeLimiter();
+        ToolTipManager.HideTooltip();
     }
 
     // Update is called once per frame
