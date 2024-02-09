@@ -80,6 +80,7 @@ public class EncounterUI : MonoBehaviour
         } else {
             txtEncounter.text = "You lose.";
         }
+        sceneInfo.isPlayerWin = isPlayerWin;
         encounterRect = EncounterBG.rectTransform.rect;
         bg_height = encounterRect.height;
         bg_width = encounterRect.width;
