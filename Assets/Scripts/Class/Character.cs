@@ -21,6 +21,7 @@ public class Character
     public string charaName;
     public int maxHP;
     public int charaHP, charaATK, charaDEF, charaRES;
+    public int movementPts;
     private List<Equipment> currEquip;
 
     public Character(string name, int newclass, int type, int hp, int atk, int def, int res){
@@ -33,6 +34,7 @@ public class Character
         charaDEF = def;
         charaRES = res;
         currEquip = new List<Equipment>();
+        movementPts = 3;
     }
 
     public Equipment getCurrentEquip(){

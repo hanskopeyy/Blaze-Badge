@@ -20,7 +20,7 @@ public class RangeLimiter
 
             foreach(OverlayTile prev in steps)
             {
-                surround.AddRange(MapManager.Instance.GetNeighbor(prev, new List<OverlayTile>()));
+                surround.AddRange(MapManager.Instance.GetNeighbor(prev, new List<OverlayTile>(), false));
             }
 
             rangeTiles.AddRange(surround);

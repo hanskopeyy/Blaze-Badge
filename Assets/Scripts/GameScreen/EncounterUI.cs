@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EncounterUI : MonoBehaviour
@@ -9,12 +10,13 @@ public class EncounterUI : MonoBehaviour
     private Image EncounterBG, charaImage, enemyImage;
 
     [SerializeField]
-    private MouseController mc;
+    private SceneInformation sceneInfo;
 
     private Rect encounterRect;
     private float bg_height, bg_width, curr_height;
 
     private bool isEncounter = false;
+    private bool isNowPlayerturn;
 
     void Start()
     {
@@ -31,15 +33,17 @@ public class EncounterUI : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             } else {
                 yield return new WaitForSeconds(2);
-                Debug.Log("test");
                 isEncounter = false;
-                mc.encounterAnimFinished();
+                sceneInfo.mapDictionary = MapManager.Instance.mapDict;
+                sceneInfo.isPlayerTurn = isNowPlayerturn;
+                SceneManager.LoadScene("Fight Scene");
             }
         }           
     }
 
-    public void doEncounter()
+    public void doEncounter(bool playerTurn)
     {
+        isNowPlayerturn = playerTurn;
         encounterRect = EncounterBG.rectTransform.rect;
         bg_height = encounterRect.height;
         bg_width = encounterRect.width;

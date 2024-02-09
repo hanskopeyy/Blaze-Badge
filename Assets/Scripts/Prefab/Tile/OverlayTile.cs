@@ -13,6 +13,7 @@ public class OverlayTile : MonoBehaviour
     public int movementCost;
     public int remainingMove;
     public Character standingChara = null;
+    public bool isStandingEnemy;
     public Vector2Int loc;
     public OverlayTile prev;
 

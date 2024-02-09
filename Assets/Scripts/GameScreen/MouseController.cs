@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Linq;
 using System;
 using static ArrowShower;
@@ -18,6 +17,8 @@ public class MouseController : MonoBehaviour
     private List<OverlayTile> DetectedList = new List<OverlayTile>();
     private bool isMoving;
 
+    [SerializeField]
+    private TurnController tc;
     [SerializeField]
     private EncounterUI encounterUI;
 
@@ -43,8 +44,9 @@ public class MouseController : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().sortingOrder = collideObject.GetComponent<SpriteRenderer>().sortingOrder+5;
             var overlay = collideObject.GetComponent<OverlayTile>();
 
-            if(rangeTiles.Count > 0 && !isMoving && overlay != null){
-                path = pf.FindPath(selectedCharacter.currentPosition, overlay, rangeTiles, 3, selectedCharacter.characterData.charaClass);
+            if((rangeTiles.Count > 0 && !isMoving && overlay != null) && sceneInfo.isPlayerTurn){
+                ToolTipManager.HideTooltip();
+                path = pf.FindPath(selectedCharacter.currentPosition, overlay, rangeTiles, selectedCharacter.characterData.charaClass, selectedCharacter.characterData.movementPts);
 
                 foreach(OverlayTile dtile in DetectedList)
                 {
@@ -56,7 +58,7 @@ public class MouseController : MonoBehaviour
                     List<OverlayTile> finalNeighbor = MapManager.Instance.GetNeighbor(path[( path.Count - 1)], new List<OverlayTile>());
                     foreach(OverlayTile neighbor in finalNeighbor)
                     {
-                        if(neighbor.obstacleType == 4){
+                        if(neighbor.standingChara != null && neighbor.isStandingEnemy){
                             neighbor.GetComponent<SpriteRenderer>().color = new Color(255,0,0,1);
                             neighbor.ShowTile();
                             DetectedList.Add(neighbor);
@@ -76,37 +78,42 @@ public class MouseController : MonoBehaviour
                     
                     path[i].SetArrow(ArrowShower.GetDirection(prev, path[i],next));
                 }
-            } else if(collideObject.GetComponent<SetupChara>() != null)
-            {
-                Character characterInfo = collideObject.GetComponent<SetupChara>().characterData;
-                string tooltipContent = "";
-                switch(characterInfo.charaType){
-                    case 1:
-                        tooltipContent += "Physical ";
-                        break;
-                    case 2:
-                        tooltipContent += "Magical ";
-                        break;
+            } else {
+                var character = collideObject.GetComponent<SetupChara>();
+                if(character != null){
+                    Character characterInfo = collideObject.GetComponent<SetupChara>().characterData;
+                    string tooltipContent = "";
+                    switch(characterInfo.charaType){
+                        case 1:
+                            tooltipContent += "Physical ";
+                            break;
+                        case 2:
+                            tooltipContent += "Magical ";
+                            break;
+                    }
+                    switch(characterInfo.charaClass){
+                        case 1:
+                            tooltipContent += "Infantry\n";
+                            break;
+                        case 2:
+                            tooltipContent += "Cavalry\n";
+                            break;
+                        case 3:
+                            tooltipContent += "Flier\n";
+                            break;
+                    }
+                    tooltipContent += "HP: " + characterInfo.charaHP.ToString() + "\n";
+                    tooltipContent += "ATK: " + characterInfo.charaATK.ToString() + "\n";
+                    tooltipContent += "DEF: " + characterInfo.charaDEF.ToString() + "\n";
+                    tooltipContent += "RES: " + characterInfo.charaRES.ToString() + "\n";
+                    tooltipContent += "Movement Point: " + characterInfo.movementPts.ToString();
+                    ToolTipManager.ShowTooltip(tooltipContent, characterInfo.charaName);
+                } else {
+                    ToolTipManager.HideTooltip();
                 }
-                switch(characterInfo.charaClass){
-                    case 1:
-                        tooltipContent += "Infantry\n";
-                        break;
-                    case 2:
-                        tooltipContent += "Cavalry\n";
-                        break;
-                    case 3:
-                        tooltipContent += "Flier\n";
-                        break;
-                }
-                tooltipContent += "HP: " + characterInfo.charaHP.ToString() + "\n";
-                tooltipContent += "ATK: " + characterInfo.charaATK.ToString() + "\n";
-                tooltipContent += "DEF: " + characterInfo.charaDEF.ToString() + "\n";
-                tooltipContent += "RES: " + characterInfo.charaRES.ToString();
-                ToolTipManager.ShowTooltip(tooltipContent, characterInfo.charaName);
             }
 
-            if(Input.GetMouseButtonDown(0))
+            if(Input.GetMouseButtonDown(0) && sceneInfo.isPlayerTurn)
             {
                 var character = collideObject.GetComponent<SetupChara>();
                 if(character == null && selectedCharacter != null){
@@ -114,10 +121,10 @@ public class MouseController : MonoBehaviour
                     {
                         MoveChara();
                     }
-                } else if(!character.isEnemy && character != null){
+                } else if((!character.isEnemy && character != null) && character.characterData.movementPts > 0){
                     Debug.Log(character.characterData.charaName + "is selected");
                     selectedCharacter = character;
-                    GetRange();
+                    GetRange(true);
                 }
             }
         }
@@ -126,35 +133,38 @@ public class MouseController : MonoBehaviour
             MoveChara();
         }
     }
-
-    private void GetRange()
+    public void HideRangeTiles()
     {
         foreach(OverlayTile tile in rangeTiles)
         {
             tile.HideTile();
         }
-        List<OverlayTile> currentNeighbor = MapManager.Instance.GetNeighbor(selectedCharacter.currentPosition, new List<OverlayTile>());
-        foreach(OverlayTile neighbor in currentNeighbor)
-        {
-            if(neighbor.obstacleType == 4){
-                Debug.Log("Encountered " + neighbor.standingChara.charaName);
-                if(PlayerInventory.encounter.Count == 0){
-                    encounterUI.doEncounter();
-                }
-                PlayerInventory.encounter.Add(new Encounter(selectedCharacter.characterData, neighbor.standingChara));
-            }
-        }
-        rangeTiles = range.GetCharacterRange(selectedCharacter.currentPosition, 3);
-        foreach(OverlayTile tile in rangeTiles)
-        {
-            tile.ShowTile();
-        }
+        rangeTiles.Clear();
     }
 
-    public void encounterAnimFinished()
+    private void GetRange(bool firstSelect)
     {
-        sceneInfo.mapDictionary = MapManager.Instance.mapDict;
-        SceneManager.LoadScene("Fight Scene");
+        HideRangeTiles();
+        if(!firstSelect)
+        {
+            List<OverlayTile> currentNeighbor = MapManager.Instance.GetNeighbor(selectedCharacter.currentPosition, new List<OverlayTile>());
+            foreach(OverlayTile neighbor in currentNeighbor)
+            {
+                if(neighbor.standingChara != null && neighbor.isStandingEnemy){
+                    Debug.Log("Encountered " + neighbor.standingChara.charaName);
+                    PlayerInventory.encounter.Add(new Encounter(selectedCharacter.characterData, neighbor.standingChara));
+                }
+            }
+        }
+        if(PlayerInventory.encounter.Count > 0){
+            encounterUI.doEncounter(true);
+        } else if(selectedCharacter.characterData.movementPts > 0){
+            rangeTiles = range.GetCharacterRange(selectedCharacter.currentPosition, selectedCharacter.characterData.movementPts);
+            foreach(OverlayTile tile in rangeTiles)
+            {
+                tile.ShowTile();
+            }
+        }
     }
 
     private void MoveChara()
@@ -165,16 +175,18 @@ public class MouseController : MonoBehaviour
 
         if(Vector2.Distance(selectedCharacter.transform.position, path[0].transform.position) < 0.01f)
         {
+            selectedCharacter.transform.position = new Vector3(selectedCharacter.transform.position.x, selectedCharacter.transform.position.y, 2);
             selectedCharacter.currentPosition.isBlocked = false;
             selectedCharacter.currentPosition.standingChara = null;
             selectedCharacter.currentPosition = path[0];
             selectedCharacter.currentPosition.isBlocked = true;
             selectedCharacter.currentPosition.standingChara = selectedCharacter.characterData;
+            selectedCharacter.characterData.movementPts = path[0].remainingMove;
 
             path.RemoveAt(0);
             if(path.Count == 0){
                 isMoving = false;
-                GetRange();
+                GetRange(false);
             }
         }
     }

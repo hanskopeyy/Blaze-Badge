@@ -19,6 +19,8 @@ public class MapManager : MonoBehaviour
     private GameObject overlayContainer, enemyContainer, teamContainer;
     [SerializeField]
     private Tilemap tileMap, obstacleMap, charaMap;
+    [SerializeField]
+    private EncounterUI encounterUI;
 
     [SerializeField]
     private List<TileData> tileDatas;
@@ -29,6 +31,7 @@ public class MapManager : MonoBehaviour
     private List<Character> enemyList, selectedList;
     private List<GameObject> enemyObjects = new List<GameObject>();
     private List<GameObject> charaObjects = new List<GameObject>();
+    private List<EnemyMovement> remainingEnemyMovement;
 
     private void Awake()
     {
@@ -47,6 +50,7 @@ public class MapManager : MonoBehaviour
         {
             oldDict = sceneInfo.mapDictionary;
         } else {
+            sceneInfo.isPlayerTurn = true;
             oldDict = null;
         }
         //Initiate Tile Data
@@ -100,7 +104,7 @@ public class MapManager : MonoBehaviour
                                 newEnemy.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
                                 newEnemy.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
                                 newEnemy.GetComponent<SetupChara>().setup(enemyList[data.num], true, overlayTile);
-                                overlayTile.obstacleType = 4;
+                                overlayTile.isStandingEnemy = true;
                                 overlayTile.standingChara = enemyList[data.num];
                                 overlayTile.isBlocked = true;
                                 enemyObjects.Add(newEnemy);
@@ -113,6 +117,7 @@ public class MapManager : MonoBehaviour
                                 newTeam.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
                                 newTeam.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
                                 newTeam.GetComponent<SetupChara>().setup(selectedList[data.num], false, overlayTile);
+                                overlayTile.isStandingEnemy = false;
                                 overlayTile.isBlocked = true;
                                 overlayTile.standingChara = selectedList[data.num];
                                 charaObjects.Add(newTeam);
@@ -134,10 +139,12 @@ public class MapManager : MonoBehaviour
                                     newEnemy.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
                                     newEnemy.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
                                     newEnemy.GetComponent<SetupChara>().setup(theChara, true, overlayTile);
-                                    overlayTile.obstacleType = 4;
+                                    overlayTile.isStandingEnemy = true;
                                     overlayTile.standingChara = theChara;
                                     overlayTile.isBlocked = true;
                                     enemyObjects.Add(newEnemy);
+                                } else {
+                                    enemyList.RemoveAt(data.num);
                                 }
                             } else {
                                 if(theChara.charaHP > 0)
@@ -148,9 +155,12 @@ public class MapManager : MonoBehaviour
                                     newTeam.transform.position = new Vector3(cellPosition.x, cellPosition.y, 2);
                                     newTeam.GetComponent<SpriteRenderer>().sortingOrder = charaMap.GetComponent<TilemapRenderer>().sortingOrder+1;
                                     newTeam.GetComponent<SetupChara>().setup(theChara, false, overlayTile);
+                                    overlayTile.isStandingEnemy = false;
                                     overlayTile.isBlocked = true;
                                     overlayTile.standingChara = theChara;
                                     charaObjects.Add(newTeam);
+                                } else {
+                                    selectedList.RemoveAt(data.num);
                                 }
                             }
                         }
@@ -159,10 +169,18 @@ public class MapManager : MonoBehaviour
                 }
             }
         }
+        if(PlayerInventory.encounter.Count > 0){
+            remainingEnemyMovement = sceneInfo.remainingEnemyMove;
+            encounterUI.doEncounter(sceneInfo.isPlayerTurn);
+        } else if(enemyList.Count == 0) {
+            // Insert Winning Here
+        } else if(selectedList.Count == 0){
+            // Insert Losing Here
+        }
         charaMap.GetComponent<TilemapRenderer>().enabled = false;
     }
 
-    public List<OverlayTile> GetNeighbor(OverlayTile current, List<OverlayTile> rangeTiles)
+    public List<OverlayTile> GetNeighbor(OverlayTile current, List<OverlayTile> rangeTiles, bool ignoreBlock = true)
     {
         Dictionary<Vector2Int, OverlayTile> tileRange = new Dictionary<Vector2Int, OverlayTile>();
         if(rangeTiles.Count > 0)
@@ -185,11 +203,33 @@ public class MapManager : MonoBehaviour
 
         foreach(Vector2Int check in checkLocations)
         {
-            if(tileRange.ContainsKey(check))
-            {
-                neighbors.Add(tileRange[check]);
+            if(ignoreBlock){
+                if(tileRange.ContainsKey(check))
+                {
+                    neighbors.Add(tileRange[check]);
+                }
+            } else {
+                if(tileRange.ContainsKey(check) && !mapDict[check].isBlocked)
+                {
+                    neighbors.Add(tileRange[check]);
+                }
             }
         }
         return neighbors;
+    }
+
+    public OverlayTile getTileAt(int x, int y){
+        var tileLoc = new Vector2Int(x,y);
+        return mapDict[tileLoc];
+    }
+
+    public List<GameObject> getEnemyObjects()
+    {
+        return enemyObjects;
+    }
+
+    public List<GameObject> getPlayerObjects()
+    {
+        return charaObjects;
     }
 }

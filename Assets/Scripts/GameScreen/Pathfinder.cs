@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Pathfinder
 {
-    public List<OverlayTile> FindPath(OverlayTile start, OverlayTile end, List<OverlayTile> pathRange, int moveMax = 99, int charaType = -1)
+    public List<OverlayTile> FindPath(OverlayTile start, OverlayTile end, List<OverlayTile> pathRange, int charaType = -1,  int moveMax = 99)
     {
         List<OverlayTile> openList = new List<OverlayTile>();
         List<OverlayTile> closedList = new List<OverlayTile>();

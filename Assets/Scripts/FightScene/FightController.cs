@@ -15,11 +15,13 @@ public class FightController : MonoBehaviour
     private Vector2 allyDefPos, enemyDefPos;
     private FightInfo allyInfo, enemyInfo;
     private bool isAllyTurn = true, isDoneAttack = false, calculate = false;
+    private bool isPlayerTurn;
     private float step;
 
     // Start is called before the first frame update
     void Start()
     {
+        isPlayerTurn = sceneInfo.isPlayerTurn;
     }
 
     IEnumerator Fighting(){
@@ -93,6 +95,7 @@ public class FightController : MonoBehaviour
                         isAllyTurn = true;
                         inFight = false;
                         sceneInfo.isFirstLoad = false;
+                        sceneInfo.isPlayerTurn = isPlayerTurn;
                         yield return new WaitForSeconds(2);
                         SceneManager.LoadScene("Game Screen");
                     } else {
@@ -102,6 +105,7 @@ public class FightController : MonoBehaviour
             } else {
                 inFight = false;
                 sceneInfo.isFirstLoad = false;
+                sceneInfo.isPlayerTurn = isPlayerTurn;
                 yield return new WaitForSeconds(1);
                 SceneManager.LoadScene("Game Screen");
             }

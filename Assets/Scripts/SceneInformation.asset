@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SceneInformation
   m_EditorClassIdentifier: 
   isFirstLoad: 0
+  isPlayerTurn: 0

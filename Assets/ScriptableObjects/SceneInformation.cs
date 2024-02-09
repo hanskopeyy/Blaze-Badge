@@ -6,5 +6,7 @@ using UnityEngine;
 public class SceneInformation : ScriptableObject
 {
     public bool isFirstLoad = true;
+    public bool isPlayerTurn;
+    public List<EnemyMovement> remainingEnemyMove;
     public Dictionary<Vector2Int,OverlayTile> mapDictionary;
 }
