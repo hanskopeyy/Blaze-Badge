@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -171,8 +172,14 @@ public class MapManager : MonoBehaviour
             }
         }
         if(PlayerInventory.encounter.Count > 0){
-            remainingEnemyMovement = sceneInfo.remainingEnemyMove;
-            encounterUI.doEncounter(sceneInfo.isPlayerTurn);
+            var encount = PlayerInventory.encounter.First();
+            if(encount.ally.charaHP > 0 && encount.enemy.charaHP > 0)
+            {
+                remainingEnemyMovement = sceneInfo.remainingEnemyMove;
+                encounterUI.doEncounter(sceneInfo.isPlayerTurn);
+            } else {
+                PlayerInventory.encounter.Remove(encount);
+            }
         } else if(enemyCounter == 0) {
             encounterUI.doResultScreen(true);
         } else if(allyCounter == 0){

@@ -122,7 +122,6 @@ public class MouseController : MonoBehaviour
                         MoveChara();
                     }
                 } else if((!character.isEnemy && character != null) && character.characterData.movementPts > 0){
-                    Debug.Log(character.characterData.charaName + "is selected");
                     selectedCharacter = character;
                     GetRange(true);
                 }
@@ -151,7 +150,6 @@ public class MouseController : MonoBehaviour
             foreach(OverlayTile neighbor in currentNeighbor)
             {
                 if(neighbor.standingChara != null && neighbor.isStandingEnemy){
-                    Debug.Log("Encountered " + neighbor.standingChara.charaName);
                     PlayerInventory.encounter.Add(new Encounter(selectedCharacter.characterData, neighbor.standingChara));
                 }
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class FightController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class FightController : MonoBehaviour
     private bool isAllyTurn = true, isDoneAttack = false, calculate = false;
     private bool isPlayerTurn;
     private float step;
+    private float tempY;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +35,10 @@ public class FightController : MonoBehaviour
                     allyObject.transform.position = Vector2.MoveTowards(allyObject.transform.position, enemyObject.transform.position, step);
                     if(Vector2.Distance(allyObject.transform.position, enemyObject.transform.position) < 1f && !calculate)
                     {
-                        enemy.charaHP -= Fight(ally,enemy);
+                        int dmg = Fight(ally,enemy);
+                        enemy.charaHP -= dmg;
+                        enemyInfo.setDMGText(dmg);
+                        tempY = enemyInfo.dmgTextContainer.transform.position.y;
                         if(enemy.charaHP < 0)
                         {
                             enemy.charaHP = 0;
@@ -44,6 +49,7 @@ public class FightController : MonoBehaviour
                         calculate = enemyInfo.calculateInfo();
                         if(!calculate){
                             isDoneAttack = true;
+                            enemyInfo.dmgTextContainer.transform.position = new Vector3(enemyInfo.dmgTextContainer.transform.position.x, tempY, enemyInfo.dmgTextContainer.transform.position.z);
                             yield return new WaitForSeconds(0.5f);
                         } else {
                             yield return new WaitForSeconds(Time.deltaTime);
@@ -68,7 +74,10 @@ public class FightController : MonoBehaviour
                     enemyObject.transform.position = Vector2.MoveTowards(enemyObject.transform.position, allyObject.transform.position, step);
                     if(Vector2.Distance(enemyObject.transform.position, allyObject.transform.position) < 1f && !calculate)
                     {
-                        ally.charaHP -= Fight(enemy,ally);
+                        int dmg = Fight(ally,enemy);
+                        ally.charaHP -= dmg;
+                        allyInfo.setDMGText(dmg);
+                        tempY = allyInfo.dmgTextContainer.transform.position.y;
                         if(ally.charaHP < 0)
                         {
                             ally.charaHP = 0;
@@ -79,6 +88,7 @@ public class FightController : MonoBehaviour
                         calculate = allyInfo.calculateInfo();
                         if(!calculate){
                             isDoneAttack = true;
+                            allyInfo.dmgTextContainer.transform.position = new Vector3(allyInfo.dmgTextContainer.transform.position.x, tempY, allyInfo.dmgTextContainer.transform.position.z);
                             yield return new WaitForSeconds(0.5f);
                         } else {
                             yield return new WaitForSeconds(Time.deltaTime);
