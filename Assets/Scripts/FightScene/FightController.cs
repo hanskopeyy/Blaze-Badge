@@ -52,7 +52,7 @@ public class FightController : MonoBehaviour
                             enemyInfo.dmgTextContainer.transform.position = new Vector3(enemyInfo.dmgTextContainer.transform.position.x, tempY, enemyInfo.dmgTextContainer.transform.position.z);
                             yield return new WaitForSeconds(0.5f);
                         } else {
-                            yield return new WaitForSeconds(Time.deltaTime);
+                            yield return new WaitForSeconds(3*Time.deltaTime);
                         }
                     } else {
                         yield return new WaitForSeconds(Time.deltaTime);

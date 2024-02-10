@@ -27,7 +27,7 @@ public class ClickableCharacter : MonoBehaviour
     }
 
     public bool isTeamReady(){
-        if(selectedCharacterList.Count == TeamSize){
+        if(selectedCharacterList.Count > 0){
             return true;
         } else {
             return false;
