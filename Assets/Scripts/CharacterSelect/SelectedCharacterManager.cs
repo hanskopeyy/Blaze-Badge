@@ -43,7 +43,6 @@ public class SelectedCharacterManager : MonoBehaviour
             selectedUI.selection();
         }
         selectedChara = selectChara;
-        Debug.Log(selectedChara.charaName + " is selected");
         selectedUI = scUI;
         selectedUI.selection();
     }
@@ -51,7 +50,6 @@ public class SelectedCharacterManager : MonoBehaviour
     public void equip(Equipment eq)
     {
         if(selectedChara != null && !eq.isEquipped){
-            Debug.Log("Trying to equip " + selectedChara.charaName + " with " + eq.equipName);
             selectedChara.equip(eq);
             selectedUI.updateEquipment();
         } else if(eq.isEquipped && eq.equippedTo == selectedChara) {
