@@ -17,7 +17,7 @@ public class EncounterUI : MonoBehaviour
     private TextMeshProUGUI txtEncounter;
 
     [SerializeField]
-    private List<Sprite> classIcons;
+    private List<Sprite> classIcons, encounterColorBG;
 
     private Rect encounterRect;
     private float bg_height, bg_width, curr_height;
@@ -37,6 +37,9 @@ public class EncounterUI : MonoBehaviour
             if(curr_height <= bg_height)
             {
                 curr_height += 150.0f * Time.deltaTime;
+                var temp = curr_height / bg_height;
+                charaImage.color = new Color(1,1,1,temp);
+                enemyImage.color = new Color(1,1,1,temp);
                 EncounterBG.rectTransform.sizeDelta = new Vector2(bg_width,curr_height);
                 yield return new WaitForSeconds(Time.deltaTime);
             } else {
@@ -66,6 +69,11 @@ public class EncounterUI : MonoBehaviour
 
     public void doEncounter(bool playerTurn)
     {
+        if(playerTurn){
+            EncounterBG.sprite = encounterColorBG[0];
+        } else {
+            EncounterBG.sprite = encounterColorBG[1];
+        }
         isNowPlayerturn = playerTurn;
         encounterRect = EncounterBG.rectTransform.rect;
         bg_height = encounterRect.height;
@@ -76,6 +84,8 @@ public class EncounterUI : MonoBehaviour
         Encounter encounter = PlayerInventory.encounter[0];
         charaImage.sprite = classIcons[((encounter.ally.charaClass-1)*2)+(encounter.ally.charaType-1)];
         enemyImage.sprite = classIcons[((encounter.enemy.charaClass-1)*2)+(encounter.enemy.charaType-1)];
+        charaImage.color = new Color(1,1,1,0);
+        enemyImage.color = new Color(1,1,1,0);
         enemyImage.rectTransform.localScale = new Vector3(-1f, 1f, 1);
         isEncounter = true;
     }
