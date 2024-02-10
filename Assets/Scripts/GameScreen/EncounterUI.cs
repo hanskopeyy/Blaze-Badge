@@ -76,7 +76,7 @@ public class EncounterUI : MonoBehaviour
         Encounter encounter = PlayerInventory.encounter[0];
         charaImage.sprite = classIcons[((encounter.ally.charaClass-1)*2)+(encounter.ally.charaType-1)];
         enemyImage.sprite = classIcons[((encounter.enemy.charaClass-1)*2)+(encounter.enemy.charaType-1)];
-        enemyImage.rectTransform.sizeDelta = new Vector2((enemyImage.rectTransform.rect.width * (-1)),enemyImage.rectTransform.rect.height);
+        enemyImage.rectTransform.localScale = new Vector3(-1f, 1f, 1);
         isEncounter = true;
     }
 

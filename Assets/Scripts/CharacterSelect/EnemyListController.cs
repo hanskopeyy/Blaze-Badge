@@ -17,7 +17,10 @@ public class EnemyListController : MonoBehaviour
     void Start()
     {
         availableCharacter = new List<Character>(PlayerInventory.availChara);
-        enemyLineup = randomizeEnemy();
+        randomizeEnemy();
+    }
+    public void randomizeEnemy(){
+        enemyLineup = getRandomEnemy();
     }
 
     private void updateList(List<Character> enemy){
@@ -30,15 +33,15 @@ public class EnemyListController : MonoBehaviour
         foreach(Character e in enemy)
         {
             GameObject newEnemy = Instantiate(prefab, scrollViewContent);
+            newEnemy.GetComponent<SelectedCharaUI>().setCharacter(e);
             enemyList.Add(newEnemy);
         }
     }
 
-    public List<Character> randomizeEnemy(){
+    public List<Character> getRandomEnemy(){
         List<Character> tempList = new List<Character>();
         for(int i = 0; i<4; i++){
             int index = Random.Range(0,(availableCharacter.Count-1));
-            Debug.Log(index);
             tempList.Add(availableCharacter[index]);
             availableCharacter.RemoveAt(index);
         }

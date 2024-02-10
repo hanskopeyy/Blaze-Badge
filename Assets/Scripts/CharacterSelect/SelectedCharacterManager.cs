@@ -38,9 +38,14 @@ public class SelectedCharacterManager : MonoBehaviour
     }
 
     public void selectEquipTarget(Character selectChara, SelectedCharaUI scUI){
+        if(selectedChara != null)
+        {
+            selectedUI.selection();
+        }
         selectedChara = selectChara;
         Debug.Log(selectedChara.charaName + " is selected");
         selectedUI = scUI;
+        selectedUI.selection();
     }
 
     public void equip(Equipment eq)
@@ -66,6 +71,7 @@ public class SelectedCharacterManager : MonoBehaviour
             PlayerInventory.selectedChara.Add(new Character(c.charaName, c.charaClass, c.charaType, c.charaHP, c.charaATK, c.charaDEF, c.charaRES));
         }
         updateList(new List<Character>(PlayerInventory.selectedChara));
+        selectEquipTarget(PlayerInventory.selectedChara[0], characters[0].GetComponent<SelectedCharaUI>());
 
     }
 }

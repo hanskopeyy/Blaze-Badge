@@ -13,7 +13,7 @@ public class CharaListUI : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private List<Sprite> classIcons;
     [SerializeField]
-    private Image charaClassIcon;
+    private Image charaClassIcon, charaImage;
     private Character charaDetails;
     private ClickableCharacter clickable;
 
@@ -33,8 +33,10 @@ public class CharaListUI : MonoBehaviour, IPointerClickHandler
                 if(details.charaType == 1)
                 {
                     charaClassIcon.sprite = classIcons[0];
+                    charaImage.sprite = classIcons[0];
                 } else {
                     charaClassIcon.sprite = classIcons[1];
+                    charaImage.sprite = classIcons[1];
                 }
                 break;
             case 2:
@@ -42,8 +44,10 @@ public class CharaListUI : MonoBehaviour, IPointerClickHandler
                 if(details.charaType == 1)
                 {
                     charaClassIcon.sprite = classIcons[2];
+                    charaImage.sprite = classIcons[2];
                 } else {
                     charaClassIcon.sprite = classIcons[3];
+                    charaImage.sprite = classIcons[3];
                 }
                 break;
             case 3:
@@ -51,8 +55,10 @@ public class CharaListUI : MonoBehaviour, IPointerClickHandler
                 if(details.charaType == 1)
                 {
                     charaClassIcon.sprite = classIcons[4];
+                    charaImage.sprite = classIcons[4];
                 } else {
                     charaClassIcon.sprite = classIcons[5];
+                    charaImage.sprite = classIcons[5];
                 }
                 break;
         }

@@ -9,10 +9,13 @@ using TMPro;
 public class SelectedCharaUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
-    private Image img_equip, img_chara;
+    private Image img_equip, img_chara, img_selected;
+    [SerializeField]
+    private List<Sprite> classIcons, equipmentIcons;
     SelectedCharacterManager scm;
     Character charaDetails;
     Equipment eqData;
+    private bool isSelected;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,15 +32,25 @@ public class SelectedCharaUI : MonoBehaviour, IPointerClickHandler
     public void setCharacter(Character chara)
     {
         charaDetails = chara;
+        img_chara.sprite = classIcons[((chara.charaClass-1)*2)+(chara.charaType-1)];
+        isSelected = true;
+        selection();
     }
 
     public void updateEquipment(){
         eqData = charaDetails.getCurrentEquip();
         if(eqData != null){
+            img_equip.sprite = equipmentIcons[eqData.equipId-1];
             img_equip.enabled = true;
         } else {
             img_equip.enabled = false;
         }
+    }
+
+    public void selection()
+    {
+        isSelected = isSelected ? false : true;
+        img_selected.gameObject.SetActive(isSelected);
     }
 
     public void OnPointerClick(PointerEventData eventData)

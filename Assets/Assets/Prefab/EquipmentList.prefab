@@ -533,7 +533,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.000010848, y: -0.000007391}
-  m_SizeDelta: {x: 97.9023, y: 92.8676}
+  m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5595707105168631626
 CanvasRenderer:
@@ -563,7 +563,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1289450699, guid: 4c75c4d2908bb5f4c93593ba41aa217b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -636,6 +636,11 @@ MonoBehaviour:
   atk: {fileID: 5458221616797143094}
   def: {fileID: 1726710991569500058}
   res: {fileID: 1302781940668338856}
+  equipmentIcons:
+  - {fileID: 1289450699, guid: 4c75c4d2908bb5f4c93593ba41aa217b, type: 3}
+  - {fileID: -1969608373, guid: 4c75c4d2908bb5f4c93593ba41aa217b, type: 3}
+  - {fileID: 783762609, guid: 4c75c4d2908bb5f4c93593ba41aa217b, type: 3}
+  equipmentImage: {fileID: 6861169105049832915}
 --- !u!1 &5727328113978364806
 GameObject:
   m_ObjectHideFlags: 0

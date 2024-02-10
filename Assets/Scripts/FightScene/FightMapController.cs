@@ -64,6 +64,7 @@ public class FightMapController : MonoBehaviour
 
                     if(data.isEnemy)
                     {
+                        newChara.GetComponent<SpriteRenderer>().flipX = true;
                         enemyObject = newChara;
                         enemyInfo = newCharaInfo.GetComponent<FightInfo>();
                     } else {

@@ -20,7 +20,9 @@ public class EnemyMovement
         distanceToPlayer = distance;
         if(isEncounter){
             Score += 16;
+            Score += (3-moveCost);
+        } else {
+            Score += (14-distanceToPlayer);
         }
-        Score += (14-distanceToPlayer);
     }
 }

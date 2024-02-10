@@ -37,10 +37,12 @@ public class ResultChecker : MonoBehaviour
     private void calculateResult()
     {
         characterList = new List<Character>(PlayerInventory.selectedChara);
+        GameObject coinReward = Instantiate(rewardPrefab, scrollViewContent);
+        coinReward.GetComponent<SetupReward>().setReward(250);
         foreach(Character chara in characterList){
             GameObject newReward = Instantiate(rewardPrefab, scrollViewContent);
+            newReward.GetComponent<SetupReward>().setReward(50, chara);
         }
-
     }
 
     public void goBacktoMenu()

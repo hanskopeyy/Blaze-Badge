@@ -3258,7 +3258,13 @@ MonoBehaviour:
   enemyImage: {fileID: 934711709}
   sceneInfo: {fileID: 11400000, guid: f6d00e4aee2021648ae8a18d28e5284c, type: 2}
   txtEncounter: {fileID: 966933531}
-  classIcons: []
+  classIcons:
+  - {fileID: -1773309751, guid: c378642a62e50af418ca3064a9bf66b8, type: 3}
+  - {fileID: 812914731, guid: c378642a62e50af418ca3064a9bf66b8, type: 3}
+  - {fileID: -1930200753, guid: c378642a62e50af418ca3064a9bf66b8, type: 3}
+  - {fileID: -308465397, guid: c378642a62e50af418ca3064a9bf66b8, type: 3}
+  - {fileID: 1032664370, guid: c378642a62e50af418ca3064a9bf66b8, type: 3}
+  - {fileID: 1879390792, guid: c378642a62e50af418ca3064a9bf66b8, type: 3}
 --- !u!114 &2081515993
 MonoBehaviour:
   m_ObjectHideFlags: 0
