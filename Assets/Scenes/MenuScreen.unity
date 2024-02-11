@@ -1601,7 +1601,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 92270887}
         m_TargetAssemblyTypeName: MenuButtonController, Assembly-CSharp
-        m_MethodName: playGame
+        m_MethodName: quitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
