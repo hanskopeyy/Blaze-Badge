@@ -38,7 +38,6 @@ public class EnemyController : MonoBehaviour
         playerObjects = MapManager.Instance.getPlayerObjects();
         if(sceneInfo.remainingEnemyMove == null)
         {
-            Debug.Log("Bot nya lagi mikir");
             foreach(GameObject temp in enemyObjects)
             {
                 List<EnemyMovement> possibleMove = new List<EnemyMovement>();
@@ -93,11 +92,9 @@ public class EnemyController : MonoBehaviour
                     {
                         if(eObject.GetComponent<SetupChara>().characterData == eMove.chara.characterData){
                             eMove.chara = eObject.GetComponent<SetupChara>();
-                            Debug.Log("Replaced New Chara");
                         }
                     }
                     eMove.targetTile = MapManager.Instance.getTileAt(eMove.targetTile.loc.x,eMove.targetTile.loc.y);
-                    Debug.Log("Replaced New Tile");
                 }
             }
             sceneInfo.remainingEnemyMove = null;
@@ -121,7 +118,7 @@ public class EnemyController : MonoBehaviour
                 MoveChara(move.chara);
             } else {
                 walkPath = pf.FindPath(move.chara.currentPosition, move.targetTile, moveRange, move.chara.characterData.charaClass, 3);
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(0.5f);
                 if(walkPath.Count>0)
                 {
                     MoveChara(move.chara);
@@ -159,7 +156,6 @@ public class EnemyController : MonoBehaviour
                 foreach(OverlayTile neighbor in currentNeighbor)
                 {
                     if(neighbor.standingChara != null && !neighbor.isStandingEnemy){
-                        Debug.Log("Enemy Encountered " + neighbor.standingChara.charaName);
                         PlayerInventory.encounter.Add(new Encounter(character.characterData, neighbor.standingChara));
                     }
                 }
