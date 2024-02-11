@@ -45,7 +45,7 @@ public class Character
         }
     }
 
-    public void equip(Equipment e){
+    public bool equip(Equipment e){
         if(currEquip.Count == 0 && !e.isEquipped){
             currEquip.Add(e);
             charaATK += e.bonusATK;
@@ -53,13 +53,13 @@ public class Character
             charaRES += e.bonusRES;
             e.isEquipped = true;
             e.equippedTo = this;
-            Debug.Log(charaName + " equipped with " + e.equipName);
+            return true;
         } else {
-            return;
+            return false;
         }
     }
 
-    public void unequip(Equipment e){
+    public bool unequip(Equipment e){
         if(currEquip.Contains(e) && e.equippedTo == this){
             currEquip.Remove(e);
             charaATK -= e.bonusATK;
@@ -67,8 +67,9 @@ public class Character
             charaRES -= e.bonusRES;
             e.equippedTo = null;
             e.isEquipped = false;
+            return true;
         } else {
-            return;
+            return false;
         }
     }
 }

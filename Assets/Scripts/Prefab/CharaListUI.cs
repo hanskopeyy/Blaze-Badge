@@ -13,7 +13,7 @@ public class CharaListUI : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private List<Sprite> classIcons;
     [SerializeField]
-    private Image charaClassIcon, charaImage;
+    private Image charaClassIcon, charaImage, selectionImage;
     private Character charaDetails;
     private ClickableCharacter clickable;
 
@@ -71,6 +71,12 @@ public class CharaListUI : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         bool isAdded = clickable.select(charaDetails);
+        if(isAdded)
+        {
+            selectionImage.enabled = true;
+        } else {
+            selectionImage.enabled = false;
+        }
     }
 
 }

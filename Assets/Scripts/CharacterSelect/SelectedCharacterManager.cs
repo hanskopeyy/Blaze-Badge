@@ -47,19 +47,23 @@ public class SelectedCharacterManager : MonoBehaviour
         selectedUI.selection();
     }
 
-    public void equip(Equipment eq)
+    public bool equip(Equipment eq)
     {
         if(selectedChara != null && !eq.isEquipped){
-            selectedChara.equip(eq);
+            bool isSuccess = selectedChara.equip(eq);
             selectedUI.updateEquipment();
+            return isSuccess;
         } else if(eq.isEquipped && eq.equippedTo == selectedChara) {
-            selectedChara.unequip(eq);
+            bool isSucces = selectedChara.unequip(eq);
             selectedUI.updateEquipment();
+            return !isSucces;
+        } else {
+            return false;
         }
     }
 
     public void lockLineup(){
-        randomEnemyButton.enabled = false;
+        randomEnemyButton.gameObject.SetActive(false);
         foreach(Character c in elc.enemyLineup)
         {
             PlayerInventory.enemyLineUp.Add(new Character(c.charaName, c.charaClass, c.charaType, c.charaHP, c.charaATK, c.charaDEF, c.charaRES));

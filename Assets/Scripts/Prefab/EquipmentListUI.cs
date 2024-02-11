@@ -13,7 +13,7 @@ public class EquipmentListUI : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private List<Sprite> equipmentIcons;
     [SerializeField]
-    private Image equipmentImage;
+    private Image equipmentImage, selectionImage;
     private Equipment eqData;
     private CharacterController charaControl;
     // Start is called before the first frame update
@@ -34,6 +34,11 @@ public class EquipmentListUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        charaControl.equipItem(eqData);
+        bool isEquipped = charaControl.equipItem(eqData);
+        if(isEquipped){
+            selectionImage.enabled = true;
+        } else {
+            selectionImage.enabled = false;
+        }
     }
 }

@@ -75,9 +75,11 @@ public class CharacterController : MonoBehaviour
         SceneManager.LoadScene("Game Screen");
     }
 
-    public void equipItem(Equipment eqData){
+    public bool equipItem(Equipment eqData){
         if(ListState == 1){
-            scm.equip(eqData);
+            return scm.equip(eqData);
+        } else {
+            return false;
         }
     }
 
